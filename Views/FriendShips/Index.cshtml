@@ -1,0 +1,24 @@
+﻿@*@model IEnumerable<UsersManager.Models.FriendShipState>*@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h3>
+    Amitié
+</h3>
+
+<div id="FriendShipListContainer">
+    @{ Html.RenderAction("GetFriendShipsStatus", new { forceRefresh = true }); }
+</div>
+<br />
+<br />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/partialRefresh")
+    <script defer>
+        installPartialRefresh("@Url.Action("GetFriendShipsStatus")", "FriendShipListContainer", 3, null);
+    </script>
+}

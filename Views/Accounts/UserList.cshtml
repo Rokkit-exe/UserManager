@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "UserList";
+}
+
+<h2>Liste des usagers</h2>
+<hr />
+<div class="userContainer" style="font-size:18px; font-weight:bold">
+    <div>Usager</div>
+    <div style="text-align:center">Connecté</div>
+    <div style="text-align:center">Droits</div>
+
+    <div style="text-align:center">Genre</div>
+    <div>Création</div>
+    <div style="text-align:center">Vérifié</div>
+    <div style="text-align:center">Bloqué</div>
+    <div></div>
+</div>
+
+<div id="UsersListContainer">
+    @{ Html.RenderAction("GetUsersList", new { forceRefresh = true }); }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/partialRefresh")
+
+    <script>
+        $(() => {
+            UpdateCheckboxChangeCallback();
+            installPartialRefresh("@Url.Action("GetUsersList")", "UsersListContainer", 3 /*secondes*/, UpdateCheckboxChangeCallback);
+           
+            function UpdateCheckboxChangeCallback() {
+                // renew checkbox change call back
+                $(".CB_Blocked").change(
+                    function () {
+                        let userid = this.id.split('_')[1];
+                        ajaxActionCall("@Url.Action("ChangeUserBlockedStatus")" + "?userid=" + userid + "&blocked=" + this.checked.toString());
+                    }
+                );
+            }
+        });
+    </script>
+}

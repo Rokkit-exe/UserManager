@@ -1,0 +1,65 @@
+﻿@model IEnumerable<UsersManager.Models.FriendShipState>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Helper.AvatarProfilLink(item.TargetUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @switch (item.Status)
+            {
+                case 1:
+                    <div style="color:green">
+                        @Helper.GlyphiconConfirmAjaxAction("RemoveFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-minus-sign", "Retirer l'amitié")
+                    </div>
+                    break;
+                case 2:
+                    <div style="color:red">
+                        @Helper.GlyphiconNoAction("glyphicon-remove-sign", "Indiquer que votre demande d'amitié a été déclinée")
+                    </div>
+                    break;
+                case 3:
+                    <div style="color:red">
+                        @Helper.GlyphiconConfirmAjaxAction("RemoveFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-minus", "Retirer une demande d'amitié")
+                    </div>
+                    break;
+                case 4:
+                    <div style="color:red">
+                        @Helper.GlyphiconConfirmAjaxAction("RemoveFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-remove", "Indiquer que vous avez décliner une demande d'amitié")
+                    </div>
+                    <div style="color:green">
+                        @Helper.GlyphiconConfirmAjaxAction("SendFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-plus", "Envoyer une demande d'amitié")
+                    </div>
+                    break;
+                case 5:
+                    <div class="list-inline">
+                        <div style="color:green">
+                            @Helper.GlyphiconConfirmAjaxAction("AcceptFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-ok", "Accepter une demande d'amitié")
+                        </div>
+                        <div style="color:red">
+                            @Helper.GlyphiconConfirmAjaxAction("DeclineFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-remove", "Decliner une demande d'amitié")
+                        </div>
+                    </div>
+                    break;
+                case 0:
+                    <div style="color:green">
+                        @Helper.GlyphiconConfirmAjaxAction("SendFriendShipRequest/" + item.TargetUser.Id.ToString(), "glyphicon-plus", "Envoyer une demande d'amitié")
+                    </div>
+                    break;
+            }
+        </td>
+    </tr>
+}
+
+</table>
